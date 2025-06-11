@@ -1,0 +1,29 @@
+{
+  "imports": {
+    "@hono/hono": "jsr:@hono/hono@^4.7.11",
+    "@std/csv": "jsr:@std/csv@^1.0.6"
+  },
+  "tasks": {
+    "check": "deno fmt --check && deno lint"
+  },
+  "fmt": {
+    "lineWidth": 79,
+    "indentWidth": 2,
+    "singleQuote": true,
+    "semiColons": false
+  },
+  "lint": {
+    "include": ["src/", "scripts/"],
+    "exclude": [],
+    "rules": {
+      "tags": [
+        // 推奨ルールセットを有効化
+        "recommended",
+        // Deno独自ルールセット
+        "deno"
+      ],
+      "include": ["camelcase"],
+      "exclude": ["no-explicit-any"]
+    }
+  }
+}
