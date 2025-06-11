@@ -4,9 +4,17 @@
     "@std/csv": "jsr:@std/csv@^1.0.6"
   },
   "tasks": {
-    "lint": "deno fmt --check && deno lint"
+    "check": "deno fmt --check && deno lint"
+  },
+  "fmt": {
+    "lineWidth": 79,
+    "indentWidth": 2,
+    "singleQuote": true,
+    "semiColons": false
   },
   "lint": {
+    "include": ["src/", "scripts/"],
+    "exclude": [],
     "rules": {
       "tags": [
         // 推奨ルールセットを有効化
@@ -14,8 +22,8 @@
         // Deno独自ルールセット
         "deno"
       ],
-      // lint対象外ディレクトリ
-      "exclude": []
+      "include": ["camelcase"],
+      "exclude": ["no-explicit-any"]
     }
   }
 }
