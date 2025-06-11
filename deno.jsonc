@@ -1,0 +1,21 @@
+{
+  "imports": {
+    "@hono/hono": "jsr:@hono/hono@^4.7.11",
+    "@std/csv": "jsr:@std/csv@^1.0.6"
+  },
+  "tasks": {
+    "lint": "deno fmt --check && deno lint"
+  },
+  "lint": {
+    "rules": {
+      "tags": [
+        // 推奨ルールセットを有効化
+        "recommended",
+        // Deno独自ルールセット
+        "deno"
+      ],
+      // lint対象外ディレクトリ
+      "exclude": []
+    }
+  }
+}

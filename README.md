@@ -1,1 +1,0 @@
-# holidays-hono-api
