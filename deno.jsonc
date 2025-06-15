@@ -1,10 +1,16 @@
 {
   "imports": {
-    "@hono/hono": "jsr:@hono/hono@^4.7.11",
-    "@std/csv": "jsr:@std/csv@^1.0.6"
+    "@hono/hono": "jsr:@hono/hono",
+    "@std/cache": "jsr:@std/cache",
+    "@std/csv": "jsr:@std/csv",
+    "@std/assert": "jsr:@std/assert",
+    "@std/testing": "jsr:@std/testing"
   },
   "tasks": {
-    "check": "deno fmt --check && deno lint"
+    "dev": "deno run --allow-read --allow-net --allow-env --allow-write --watch src/index.ts",
+    "create-json": "deno run --allow-read --allow-net --allow-env --allow-write scripts/convert-csv.ts",
+    "check": "deno fmt --check && deno lint",
+    "test": "deno test"
   },
   "fmt": {
     "lineWidth": 79,

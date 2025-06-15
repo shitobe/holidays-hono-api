@@ -1,19 +1,7 @@
 import { parse } from '@std/csv/parse'
+import type { Holiday, HolidayJson } from '../src/type.ts'
 
-type Holiday = {
-  date: string
-  name: string
-}
-
-type HolidayJson = {
-  [year: string]: {
-    [month: string]: {
-      [day: string]: Holiday
-    }
-  }
-}
-
-const createHoliday = (date: string, name: string): Holiday => {
+export const createHoliday = (date: string, name: string): Holiday => {
   const [y, m, d] = date.split('/')
   return {
     // 人間が見やすいように 2桁の月と日をゼロ埋め
@@ -22,7 +10,7 @@ const createHoliday = (date: string, name: string): Holiday => {
   }
 }
 
-const convertToJson = (dates: Holiday[]): HolidayJson => {
+export const convertToJson = (dates: Holiday[]): HolidayJson => {
   const holidays: HolidayJson = {}
   for (const d of dates) {
     const [year, month, day] = d.date.split('-')
@@ -41,7 +29,7 @@ const convertToJson = (dates: Holiday[]): HolidayJson => {
   return holidays
 }
 
-async function downloadCsv(url: string): Promise<string> {
+export async function downloadCsv(url: string): Promise<string> {
   const response = await fetch(url)
   if (!response.ok) {
     throw new Error(`Failed to download CSV: ${response.statusText}`)
@@ -51,7 +39,7 @@ async function downloadCsv(url: string): Promise<string> {
   return decoder.decode(buffer)
 }
 
-function parseCsv(csvData: string): Holiday[] {
+export function parseCsv(csvData: string): Holiday[] {
   // CSVをパース
   const records = parse(csvData, {
     skipFirstRow: true,
@@ -72,7 +60,7 @@ async function main() {
     console.log('CSVのダウンロードが完了しました。JSONを作成します...')
     const holidaysJson = convertToJson(parseCsv(csvData))
     const jsonContent = JSON.stringify(holidaysJson, null, 2)
-    await Deno.writeTextFile('./src/json/holidays.json', jsonContent)
+    await Deno.writeTextFile('./src/store/holidays.json', jsonContent)
     console.log('holidays.jsonを作成しました')
   } catch (error) {
     console.error('エラーが発生しました:', error)
