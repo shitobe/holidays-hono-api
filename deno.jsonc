@@ -9,7 +9,10 @@
   "tasks": {
     "dev": "deno run --allow-read --allow-net --allow-env --allow-write --watch src/index.ts",
     "create-json": "deno run --allow-read --allow-net --allow-env --allow-write scripts/convert-csv.ts",
-    "check": "deno fmt --check && deno lint",
+    "fmt": "deno fmt",
+    "lint": "deno lint",
+    "check": "deno fmt && deno lint",
+    "check-only": "deno fmt --check && deno lint",
     "test": "deno test"
   },
   "fmt": {

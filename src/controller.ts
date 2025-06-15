@@ -23,19 +23,22 @@ export const fileReadCache = new LruCache<
 >(1)
 
 export const holidayYearCache = new LruCache<
-    string,
-    MemoizationCacheResult<Promise<Holiday[]>>>(
-    50,
+  string,
+  MemoizationCacheResult<Promise<Holiday[]>>
+>(
+  50,
 )
 export const holidayMonthCache = new LruCache<
-    string,
-    MemoizationCacheResult<Promise<Holiday[]>>>(
-    100,
+  string,
+  MemoizationCacheResult<Promise<Holiday[]>>
+>(
+  100,
 )
 export const holidayDateCache = new LruCache<
-    string,
-    MemoizationCacheResult<Promise<Holiday[]>>>(
-    200,
+  string,
+  MemoizationCacheResult<Promise<Holiday[]>>
+>(
+  200,
 )
 
 const getHolidaysJson = memoize(async (): Promise<HolidayJson> => {

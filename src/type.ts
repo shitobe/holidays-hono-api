@@ -1,16 +1,16 @@
 export type Holiday = {
-  date: string;
-  name: string;
+  date: string
+  name: string
 }
 
 export type HolidayMonth = {
-  [day: string]: Holiday;
+  [day: string]: Holiday
 }
 
 export type HolidayYear = {
-  [month: string]: HolidayMonth;
+  [month: string]: HolidayMonth
 }
 
 export type HolidayJson = {
-  [year: string]: HolidayYear;
+  [year: string]: HolidayYear
 }

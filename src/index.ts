@@ -83,17 +83,17 @@ app.get('/api/ja/:year/:month/:day', async (c) => {
   })
 })
 
-app.get('/api/cache/status',  (c) => {
+app.get('/api/cache/status', (c) => {
   const cacheStatus = {
     fileReadCache: fileReadCache.size,
     holidayYearCache: holidayYearCache.size,
     holidayMonthCache: holidayMonthCache.size,
     holidayDateCache: holidayDateCache.size,
   }
-    return c.json({
-      status: cacheStatus,
-      timestamp: new Date().toISOString()
-    })
+  return c.json({
+    status: cacheStatus,
+    timestamp: new Date().toISOString(),
+  })
 })
 
 Deno.serve(app.fetch)
