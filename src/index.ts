@@ -1,7 +1,6 @@
 import { Hono } from '@hono/hono'
 import { cors } from '@hono/hono/cors'
 import { logger } from '@hono/hono/logger'
-import { cache } from '@hono/hono/cache'
 import {
   fileReadCache,
   holidayController,
@@ -18,15 +17,6 @@ app.use(
   cors({
     origin: '*',
     allowMethods: ['GET'],
-  }),
-)
-
-// Honoのキャッシュミドルウェア（HTTPキャッシュヘッダー）
-app.use(
-  '/api/ja/*',
-  cache({
-    cacheName: 'holiday-api',
-    cacheControl: 'max-age=3600', // 1時間キャッシュ
   }),
 )
 

@@ -4,6 +4,7 @@
     "jsr:@hono/hono@*": "4.7.11",
     "jsr:@std/assert@*": "1.0.13",
     "jsr:@std/assert@^1.0.13": "1.0.13",
+    "jsr:@std/cache@*": "0.2.0",
     "jsr:@std/csv@*": "1.0.6",
     "jsr:@std/data-structures@^1.0.8": "1.0.8",
     "jsr:@std/fs@^1.0.18": "1.0.18",
@@ -22,6 +23,9 @@
       "dependencies": [
         "jsr:@std/internal@^1.0.6"
       ]
+    },
+    "@std/cache@0.2.0": {
+      "integrity": "63a2ccd5a9e7c03e430f7d34dfcfd0d0cfc90731a1eaf8208f4c66e418fc3035"
     },
     "@std/csv@1.0.6": {
       "integrity": "52ef0e62799a0028d278fa04762f17f9bd263fad9a8e7f98c14fbd371d62d9fd",
