@@ -1,17 +1,5 @@
 import { parse } from '@std/csv/parse'
-
-export type Holiday = {
-  date: string
-  name: string
-}
-
-export type HolidayJson = {
-  [year: string]: {
-    [month: string]: {
-      [day: string]: Holiday
-    }
-  }
-}
+import type { Holiday, HolidayJson } from '../src/type.ts'
 
 export const createHoliday = (date: string, name: string): Holiday => {
   const [y, m, d] = date.split('/')
@@ -72,7 +60,7 @@ async function main() {
     console.log('CSVのダウンロードが完了しました。JSONを作成します...')
     const holidaysJson = convertToJson(parseCsv(csvData))
     const jsonContent = JSON.stringify(holidaysJson, null, 2)
-    await Deno.writeTextFile('./src/json/holidays.json', jsonContent)
+    await Deno.writeTextFile('./src/store/holidays.json', jsonContent)
     console.log('holidays.jsonを作成しました')
   } catch (error) {
     console.error('エラーが発生しました:', error)

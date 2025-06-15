@@ -1,29 +1,64 @@
 {
   "version": "4",
   "specifiers": {
+    "jsr:@hono/hono@*": "4.7.11",
     "jsr:@std/assert@*": "1.0.13",
     "jsr:@std/assert@^1.0.13": "1.0.13",
+    "jsr:@std/cache@0.2": "0.2.0",
     "jsr:@std/csv@*": "1.0.6",
+    "jsr:@std/data-structures@^1.0.8": "1.0.8",
+    "jsr:@std/fs@^1.0.18": "1.0.18",
     "jsr:@std/internal@^1.0.6": "1.0.8",
+    "jsr:@std/internal@^1.0.8": "1.0.8",
+    "jsr:@std/path@^1.1.0": "1.1.0",
+    "jsr:@std/streams@^1.0.9": "1.0.9",
     "jsr:@std/testing@*": "1.0.14"
   },
   "jsr": {
+    "@hono/hono@4.7.11": {
+      "integrity": "52b9395e4f2448fbaf82a6bd7925d15e59f4055037e74d6c2f657f3618b11193"
+    },
     "@std/assert@1.0.13": {
       "integrity": "ae0d31e41919b12c656c742b22522c32fb26ed0cba32975cb0de2a273cb68b29",
       "dependencies": [
-        "jsr:@std/internal"
+        "jsr:@std/internal@^1.0.6"
       ]
     },
+    "@std/cache@0.2.0": {
+      "integrity": "63a2ccd5a9e7c03e430f7d34dfcfd0d0cfc90731a1eaf8208f4c66e418fc3035"
+    },
     "@std/csv@1.0.6": {
-      "integrity": "52ef0e62799a0028d278fa04762f17f9bd263fad9a8e7f98c14fbd371d62d9fd"
+      "integrity": "52ef0e62799a0028d278fa04762f17f9bd263fad9a8e7f98c14fbd371d62d9fd",
+      "dependencies": [
+        "jsr:@std/streams"
+      ]
+    },
+    "@std/data-structures@1.0.8": {
+      "integrity": "2fb7219247e044c8fcd51341788547575653c82ae2c759ff209e0263ba7d9b66"
+    },
+    "@std/fs@1.0.18": {
+      "integrity": "24bcad99eab1af4fde75e05da6e9ed0e0dce5edb71b7e34baacf86ffe3969f3a",
+      "dependencies": [
+        "jsr:@std/path"
+      ]
     },
     "@std/internal@1.0.8": {
       "integrity": "fc66e846d8d38a47cffd274d80d2ca3f0de71040f855783724bb6b87f60891f5"
     },
+    "@std/path@1.1.0": {
+      "integrity": "ddc94f8e3c275627281cbc23341df6b8bcc874d70374f75fec2533521e3d6886"
+    },
+    "@std/streams@1.0.9": {
+      "integrity": "a9d26b1988cdd7aa7b1f4b51e1c36c1557f3f252880fa6cc5b9f37078b1a5035"
+    },
     "@std/testing@1.0.14": {
       "integrity": "144b3737105b9071cb50c957681f58a1b8ec0f3e5b19ad830f401c5fa931e8f0",
       "dependencies": [
-        "jsr:@std/assert@^1.0.13"
+        "jsr:@std/assert@^1.0.13",
+        "jsr:@std/data-structures",
+        "jsr:@std/fs",
+        "jsr:@std/internal@^1.0.8",
+        "jsr:@std/path"
       ]
     }
   },
@@ -31,6 +66,7 @@
     "dependencies": [
       "jsr:@hono/hono@*",
       "jsr:@std/assert@*",
+      "jsr:@std/cache@0.2",
       "jsr:@std/csv@*",
       "jsr:@std/testing@*"
     ]

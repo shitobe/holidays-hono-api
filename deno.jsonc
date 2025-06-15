@@ -1,12 +1,14 @@
 {
   "imports": {
     "@hono/hono": "jsr:@hono/hono",
+    "@std/cache": "jsr:@std/cache@^0.2.0",
     "@std/csv": "jsr:@std/csv",
     "@std/assert": "jsr:@std/assert",
     "@std/testing": "jsr:@std/testing"
   },
   "tasks": {
-    "dev": "deno run --allow-read --allow-net --allow-env --allow-write --watch src/server.ts",
+    "dev": "deno run --allow-read --allow-net --allow-env --allow-write --watch src/index.ts",
+    "create-json": "deno run --allow-read --allow-net --allow-env --allow-write scripts/convert-csv.ts",
     "check": "deno fmt --check && deno lint",
     "test": "deno test"
   },
