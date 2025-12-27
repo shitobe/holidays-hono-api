@@ -1,5 +1,3 @@
-import { LruCache, type MemoizationCacheResult, memoize } from '@std/cache'
-
 import type {
   Holiday,
   HolidayJson,
@@ -16,32 +14,8 @@ function isHoliday(value: any): value is Holiday {
     typeof value.name === 'string'
   )
 }
-// read holidays.json file and cache it
-export const fileReadCache = new LruCache<
-  string,
-  MemoizationCacheResult<Promise<HolidayJson>>
->(1)
 
-export const holidayYearCache = new LruCache<
-  string,
-  MemoizationCacheResult<Promise<Holiday[]>>
->(
-  50,
-)
-export const holidayMonthCache = new LruCache<
-  string,
-  MemoizationCacheResult<Promise<Holiday[]>>
->(
-  100,
-)
-export const holidayDateCache = new LruCache<
-  string,
-  MemoizationCacheResult<Promise<Holiday[]>>
->(
-  200,
-)
-
-const getHolidaysJson = memoize(async (): Promise<HolidayJson> => {
+const getHolidaysJson = async (): Promise<HolidayJson> => {
   try {
     const text = await Deno.readTextFile('./src/store/holidays.json')
     return JSON.parse(text)
@@ -49,7 +23,7 @@ const getHolidaysJson = memoize(async (): Promise<HolidayJson> => {
     console.error('Error reading holidays.json:', e)
     return {}
   }
-}, { cache: fileReadCache })
+}
 
 const flattenJson = (
   json: HolidayJson | Holiday | HolidayYear | HolidayMonth,
@@ -98,7 +72,7 @@ export const holidayController = () => {
     return !(isNaN(day) || day < 1 || day > 31)
   }
 
-  const getHolidays = memoize(async (): Promise<Holiday[]> => {
+  const getHolidays = async (): Promise<Holiday[]> => {
     console.log('Getting all holidays...')
     const holidaysJson = await getHolidaysJson()
     if (!holidaysJson) {
@@ -106,94 +80,79 @@ export const holidayController = () => {
       return []
     }
     return flattenJson(holidaysJson)
-  }, {
-    cache: new LruCache<string, MemoizationCacheResult<Promise<Holiday[]>>>(
-      20,
-    ),
-  })
+  }
 
-  const getHolidaysByYear = memoize(
-    async (year: string): Promise<Holiday[]> => {
-      console.log('Getting holidays for year:', year)
+  const getHolidaysByYear = async (year: string): Promise<Holiday[]> => {
+    console.log('Getting holidays for year:', year)
 
-      if (!isValidateYear(year)) {
-        throw new Error(`Invalid year: ${year}`)
-      }
+    if (!isValidateYear(year)) {
+      throw new Error(`Invalid year: ${year}`)
+    }
 
-      const holidaysJson = await getHolidaysJson()
-      if (!holidaysJson || !holidaysJson[year]) {
-        console.error(
-          'Holidays JSON is not available and no holidays found for year:',
-          year,
-        )
-        return []
-      }
-      return flattenJson(holidaysJson[year])
-    },
-    {
-      cache: holidayYearCache,
-    },
-  )
-  const getHolidaysByMonth = memoize(
-    async (
-      year: string,
-      month: string,
-    ): Promise<Holiday[]> => {
-      console.log('Getting holidays for year/month:', year, month)
+    const holidaysJson = await getHolidaysJson()
+    if (!holidaysJson || !holidaysJson[year]) {
+      console.error(
+        'Holidays JSON is not available and no holidays found for year:',
+        year,
+      )
+      return []
+    }
+    return flattenJson(holidaysJson[year])
+  }
+  const getHolidaysByMonth = async (
+    year: string,
+    month: string,
+  ): Promise<Holiday[]> => {
+    console.log('Getting holidays for year/month:', year, month)
 
-      if (!isValidateYear(year)) {
-        throw new Error(`Invalid year: ${year}`)
-      }
-      if (!isValidateMonth(month)) {
-        throw new Error(`Invalid month: ${month}`)
-      }
+    if (!isValidateYear(year)) {
+      throw new Error(`Invalid year: ${year}`)
+    }
+    if (!isValidateMonth(month)) {
+      throw new Error(`Invalid month: ${month}`)
+    }
 
-      const holidaysJson = await getHolidaysJson()
-      if (!holidaysJson || !holidaysJson[year][month]) {
-        console.error(
-          'Holidays JSON is not available and no holidays found for year/month:',
-          year,
-          month,
-        )
-        return []
-      }
-      return flattenJson(holidaysJson[year][month])
-    },
-    {
-      cache: holidayMonthCache,
-    },
-  )
-  const getHolidaysByDate = memoize(
-    async (year: string, month: string, day: string): Promise<Holiday[]> => {
-      console.log('Getting holidays for year/month/day:', year, month, day)
-      if (!isValidateYear(year)) {
-        throw new Error(`Invalid year: ${year}`)
-      }
-      if (!isValidateMonth(month)) {
-        throw new Error(`Invalid month: ${month}`)
-      }
-      const monthOfLastDate = new Date(parseInt(year), parseInt(month), 0)
-        .getDate()
-      if (!isValidateDay(day) || parseInt(day) > monthOfLastDate) {
-        throw new Error(`Invalid day: ${day}`)
-      }
+    const holidaysJson = await getHolidaysJson()
+    if (!holidaysJson || !holidaysJson[year][month]) {
+      console.error(
+        'Holidays JSON is not available and no holidays found for year/month:',
+        year,
+        month,
+      )
+      return []
+    }
+    return flattenJson(holidaysJson[year][month])
+  }
+  const getHolidaysByDate = async (
+    year: string,
+    month: string,
+    day: string,
+  ): Promise<Holiday[]> => {
+    console.log('Getting holidays for year/month/day:', year, month, day)
+    if (!isValidateYear(year)) {
+      throw new Error(`Invalid year: ${year}`)
+    }
+    if (!isValidateMonth(month)) {
+      throw new Error(`Invalid month: ${month}`)
+    }
+    const monthOfLastDate = new Date(parseInt(year), parseInt(month), 0)
+      .getDate()
+    if (!isValidateDay(day) || parseInt(day) > monthOfLastDate) {
+      throw new Error(`Invalid day: ${day}`)
+    }
 
-      const holidaysJson = await getHolidaysJson()
-      if (!holidaysJson || !holidaysJson[year][month][day]) {
-        console.error(
-          'Holidays JSON is not available and no holidays found for year/month/day:',
-          year,
-          month,
-          day,
-        )
-        return []
-      }
-      return flattenJson(holidaysJson[year][month][day])
-    },
-    {
-      cache: holidayDateCache,
-    },
-  )
+    const holidaysJson = await getHolidaysJson()
+    if (!holidaysJson || !holidaysJson[year][month][day]) {
+      console.error(
+        'Holidays JSON is not available and no holidays found for year/month/day:',
+        year,
+        month,
+        day,
+      )
+      return []
+    }
+    return flattenJson(holidaysJson[year][month][day])
+  }
 
   return {
     getHolidays,

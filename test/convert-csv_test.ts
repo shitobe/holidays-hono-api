@@ -6,9 +6,9 @@ import {
   convertToJson,
   createHoliday,
   downloadCsv,
-  Holiday,
   parseCsv,
 } from '../scripts/convert-csv.ts'
+import type { Holiday } from '../src/type.ts'
 
 Deno.test('downloadCsv - 正常にCSVをダウンロードできる', async () => {
   const mockCsvData = 'date,name\n2024/1/1,元日'

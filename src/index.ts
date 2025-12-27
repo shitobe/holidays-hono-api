@@ -2,11 +2,7 @@ import { Hono } from '@hono/hono'
 import { cors } from '@hono/hono/cors'
 import { logger } from '@hono/hono/logger'
 import {
-  fileReadCache,
   holidayController,
-  holidayDateCache,
-  holidayMonthCache,
-  holidayYearCache,
 } from './controller.ts'
 const app = new Hono()
 
@@ -35,7 +31,6 @@ app.get('/', (c) => {
 })
 
 app.get('/api/ja', async (c) => {
-  c.header('X-Cache-Status', fileReadCache.size > 0 ? 'HIT' : 'MISS')
   const holidays = await controller.getHolidays()
   return c.json({
     holidays,
@@ -44,7 +39,6 @@ app.get('/api/ja', async (c) => {
 })
 
 app.get('/api/ja/:year', async (c) => {
-  c.header('X-Cache-Status', holidayYearCache.size > 0 ? 'HIT' : 'MISS')
   const year = c.req.param('year')
   const holidays = await controller.getHolidaysByYear(year)
   return c.json({
@@ -54,7 +48,6 @@ app.get('/api/ja/:year', async (c) => {
 })
 
 app.get('/api/ja/:year/:month', async (c) => {
-  c.header('X-Cache-Status', holidayMonthCache.size > 0 ? 'HIT' : 'MISS')
   const { year, month } = c.req.param()
   const holidays = await controller.getHolidaysByMonth(year, month)
   return c.json({
@@ -64,25 +57,11 @@ app.get('/api/ja/:year/:month', async (c) => {
 })
 
 app.get('/api/ja/:year/:month/:day', async (c) => {
-  c.header('X-Cache-Status', holidayDateCache.size > 0 ? 'HIT' : 'MISS')
   const { year, month, day } = c.req.param()
   const holidays = await controller.getHolidaysByDate(year, month, day)
   return c.json({
     holidays,
     length: holidays.length,
-  })
-})
-
-app.get('/api/cache/status', (c) => {
-  const cacheStatus = {
-    fileReadCache: fileReadCache.size,
-    holidayYearCache: holidayYearCache.size,
-    holidayMonthCache: holidayMonthCache.size,
-    holidayDateCache: holidayDateCache.size,
-  }
-  return c.json({
-    status: cacheStatus,
-    timestamp: new Date().toISOString(),
   })
 })
 

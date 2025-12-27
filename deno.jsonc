@@ -1,7 +1,6 @@
 {
   "imports": {
     "@hono/hono": "jsr:@hono/hono",
-    "@std/cache": "jsr:@std/cache",
     "@std/csv": "jsr:@std/csv",
     "@std/assert": "jsr:@std/assert",
     "@std/testing": "jsr:@std/testing"
