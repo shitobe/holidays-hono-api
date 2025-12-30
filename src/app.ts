@@ -1,9 +1,8 @@
 import { Hono } from '@hono/hono'
 import { cors } from '@hono/hono/cors'
 import { logger } from '@hono/hono/logger'
-import {
-  holidayController,
-} from './controller.ts'
+import { holidayController } from './controller.ts'
+
 const app = new Hono()
 
 // ミドルウェア設定
@@ -22,7 +21,7 @@ app.get('/', (c) => {
   return c.json({
     message: 'japanese-holidays-api',
     endpoints: {
-      '/api/ja': '日本の祝日を表示',
+      '/api/ja/': '日本の祝日を表示',
       '/api/ja/:year': '指定した年の祝日を表示',
       '/api/ja/:year/:month': '指定した年と月の祝日を表示',
       '/api/ja/:year/:month/:day': '指定した年、月、日の祝日を表示',
@@ -30,7 +29,7 @@ app.get('/', (c) => {
   })
 })
 
-app.get('/api/ja', async (c) => {
+app.get('/api/ja/', async (c) => {
   const holidays = await controller.getHolidays()
   return c.json({
     holidays,
@@ -65,4 +64,4 @@ app.get('/api/ja/:year/:month/:day', async (c) => {
   })
 })
 
-Deno.serve(app.fetch)
+export { app }

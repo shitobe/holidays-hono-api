@@ -4,6 +4,7 @@ import type {
   HolidayMonth,
   HolidayYear,
 } from './type.ts'
+import holidaysData from './store/holidays.json' with { type: 'json' }
 
 // 型ガード関数のセット
 function isHoliday(value: any): value is Holiday {
@@ -15,14 +16,8 @@ function isHoliday(value: any): value is Holiday {
   )
 }
 
-const getHolidaysJson = async (): Promise<HolidayJson> => {
-  try {
-    const text = await Deno.readTextFile('./src/store/holidays.json')
-    return JSON.parse(text)
-  } catch (e) {
-    console.error('Error reading holidays.json:', e)
-    return {}
-  }
+const getHolidaysJson = (): HolidayJson => {
+  return holidaysData as HolidayJson
 }
 
 const flattenJson = (
@@ -72,9 +67,9 @@ export const holidayController = () => {
     return !(isNaN(day) || day < 1 || day > 31)
   }
 
-  const getHolidays = async (): Promise<Holiday[]> => {
+  const getHolidays = (): Holiday[] => {
     console.log('Getting all holidays...')
-    const holidaysJson = await getHolidaysJson()
+    const holidaysJson = getHolidaysJson()
     if (!holidaysJson) {
       console.error('Holidays JSON is not available')
       return []
@@ -82,14 +77,14 @@ export const holidayController = () => {
     return flattenJson(holidaysJson)
   }
 
-  const getHolidaysByYear = async (year: string): Promise<Holiday[]> => {
+  const getHolidaysByYear = (year: string): Holiday[] => {
     console.log('Getting holidays for year:', year)
 
     if (!isValidateYear(year)) {
       throw new Error(`Invalid year: ${year}`)
     }
 
-    const holidaysJson = await getHolidaysJson()
+    const holidaysJson = getHolidaysJson()
     if (!holidaysJson || !holidaysJson[year]) {
       console.error(
         'Holidays JSON is not available and no holidays found for year:',
@@ -99,10 +94,10 @@ export const holidayController = () => {
     }
     return flattenJson(holidaysJson[year])
   }
-  const getHolidaysByMonth = async (
+  const getHolidaysByMonth = (
     year: string,
     month: string,
-  ): Promise<Holiday[]> => {
+  ): Holiday[] => {
     console.log('Getting holidays for year/month:', year, month)
 
     if (!isValidateYear(year)) {
@@ -112,7 +107,7 @@ export const holidayController = () => {
       throw new Error(`Invalid month: ${month}`)
     }
 
-    const holidaysJson = await getHolidaysJson()
+    const holidaysJson = getHolidaysJson()
     if (!holidaysJson || !holidaysJson[year][month]) {
       console.error(
         'Holidays JSON is not available and no holidays found for year/month:',
@@ -123,11 +118,11 @@ export const holidayController = () => {
     }
     return flattenJson(holidaysJson[year][month])
   }
-  const getHolidaysByDate = async (
+  const getHolidaysByDate = (
     year: string,
     month: string,
     day: string,
-  ): Promise<Holiday[]> => {
+  ): Holiday[] => {
     console.log('Getting holidays for year/month/day:', year, month, day)
     if (!isValidateYear(year)) {
       throw new Error(`Invalid year: ${year}`)
@@ -141,7 +136,7 @@ export const holidayController = () => {
       throw new Error(`Invalid day: ${day}`)
     }
 
-    const holidaysJson = await getHolidaysJson()
+    const holidaysJson = getHolidaysJson()
     if (!holidaysJson || !holidaysJson[year][month][day]) {
       console.error(
         'Holidays JSON is not available and no holidays found for year/month/day:',

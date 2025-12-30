@@ -14,3 +14,5 @@ export type HolidayYear = {
 export type HolidayJson = {
   [year: string]: HolidayYear
 }
+
+export type DownloadUrl = string

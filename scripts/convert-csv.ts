@@ -1,5 +1,8 @@
 import { parse } from '@std/csv/parse'
-import type { Holiday, HolidayJson } from '../src/type.ts'
+import type { DownloadUrl, Holiday, HolidayJson } from '../src/type.ts'
+
+const DOWNLOAD_CSV_URL: DownloadUrl =
+  'https://www8.cao.go.jp/chosei/shukujitsu/syukujitsu.csv'
 
 export const createHoliday = (date: string, name: string): Holiday => {
   const [y, m, d] = date.split('/')
@@ -52,10 +55,11 @@ export function parseCsv(csvData: string): Holiday[] {
   })
 }
 
-async function main() {
+export async function createHolidaysStore() {
   try {
     console.log('祝日CSVをダウンロードしています...')
-    const url = 'https://www8.cao.go.jp/chosei/shukujitsu/syukujitsu.csv'
+    const url = Deno.env.get('DOWNLOAD_CSV_URL') as DownloadUrl ??
+      DOWNLOAD_CSV_URL
     const csvData = await downloadCsv(url)
     console.log('CSVのダウンロードが完了しました。JSONを作成します...')
     const holidaysJson = convertToJson(parseCsv(csvData))
@@ -68,5 +72,5 @@ async function main() {
 }
 
 if (import.meta.main) {
-  main()
+  await createHolidaysStore()
 }
