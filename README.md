@@ -4,12 +4,14 @@
 
 選定した理由、lint と testを同時に行えて追加するパッケージが少なくなる。
 
-
 ## hono
+日本産 webフレームワーク
+Cloudflare 上でのデプロイするのであれば、一択。
+jsxも使える
 
 ## denoflare
 
-cloudflare workerのデプロイは denoflareで行う。
+Cloudflare workerのデプロイは denoflareで行う。
 インストール方法は以下、ver0.7.0
 なのでアップデートしていれば最新のバージョンへ変更する。
 
