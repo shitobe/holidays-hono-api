@@ -15,7 +15,9 @@ node_modules/
 
 # env
 .env
-.env.*
+.env.production
+.env.local
+
 .dev.vars
 
 # logs
