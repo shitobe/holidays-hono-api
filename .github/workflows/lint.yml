@@ -1,0 +1,17 @@
+name: lint.yml
+on:
+  pull_request:
+    branches:
+      - master
+    types: [opened,synchronize,ready_for_review]
+
+jobs:
+  lint:
+    name: deno lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: 1.30.0
+      - run: deno lint
