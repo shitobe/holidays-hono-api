@@ -16,6 +16,7 @@ jobs:
       - uses: denoland/setup-deno@v2
         with:
           deno-version: v2.x
+      - run: echo "${{ secrets.CLOUDFLARE_ACCOUNT_ID }}"
       - run: deno task check-only
       - run: deno task test
       - run: deno task create-json
