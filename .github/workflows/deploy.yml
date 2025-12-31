@@ -17,3 +17,6 @@ jobs:
       - run: deno task create-json
       - run: deno install --global -A --unstable-worker-options --name denoflare --force https://raw.githubusercontent.com/skymethod/denoflare/v0.7.0/cli/cli.ts
       - run: deno task deploy
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
