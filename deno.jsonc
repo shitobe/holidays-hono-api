@@ -8,6 +8,7 @@
   "tasks": {
     "dev": "deno run --allow-read --allow-net --allow-env --allow-write --watch src/serve.ts",
     "create-json": "deno run --allow-read --allow-net --allow-env --allow-write scripts/convert-csv.ts",
+    "deploy": "denoflare push holidays --config .denoflare.jsonc",
     "fmt": "deno fmt",
     "lint": "deno lint",
     "check": "deno fmt && deno lint",
