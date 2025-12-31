@@ -1,0 +1,19 @@
+name: deploy.yml
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deployment:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+      - run: deno task check-only
+      - run: deno task test
+      - run: deno task create-json
+      - run: deno install --global -A --unstable-worker-options --name denoflare --force https://raw.githubusercontent.com/skymethod/denoflare/v0.7.0/cli/cli.ts
+      - run: deno task deploy
