@@ -2,11 +2,13 @@ import { Hono } from '@hono/hono'
 import { cors } from '@hono/hono/cors'
 import { logger } from '@hono/hono/logger'
 import { holidayController } from './controller.ts'
+import { appendTrailingSlash } from '@hono/hono/trailing-slash'
 
 const app = new Hono()
 
 // ミドルウェア設定
 app.use('*', logger())
+app.use('*', appendTrailingSlash())
 app.use(
   '*',
   cors({
@@ -29,7 +31,7 @@ app.get('/', (c) => {
   })
 })
 
-app.get('/api/ja/', async (c) => {
+app.get('/api/ja', async (c) => {
   const holidays = await controller.getHolidays()
   return c.json({
     holidays,
