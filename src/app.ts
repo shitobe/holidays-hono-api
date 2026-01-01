@@ -41,9 +41,9 @@ app.get('/', (c) => {
     message: 'japanese-holidays-api',
     endpoints: {
       '/api/ja/': '日本の祝日を表示',
-      '/api/ja/:year': '指定した年の祝日を表示',
-      '/api/ja/:year/:month': '指定した年と月の祝日を表示',
-      '/api/ja/:year/:month/:day': '指定した年、月、日の祝日を表示',
+      '/api/ja/:year/': '指定した年の祝日を表示',
+      '/api/ja/:year/:month/': '指定した年と月の祝日を表示',
+      '/api/ja/:year/:month/:day/': '指定した年、月、日の祝日を表示',
     },
   })
 })
